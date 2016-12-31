@@ -1,41 +1,41 @@
 //
-//  MovieViewController.swift
+//  MovieViewController2.swift
 //  MoviesApp
 //
-//  Created by Christopher Webb-Orenstein on 12/30/16.
+//  Created by Christopher Webb-Orenstein on 12/31/16.
 //  Copyright © 2016 Christopher Webb-Orenstein. All rights reserved.
 //
 
 import UIKit
 
-class TeamViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+class MovieViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     private let reuseIdentifier = "MovieCell"
     let store = DataStore.sharedInstance
-    var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     let detailPop = DetailPopover()
-   // var searchController = UISearchController(searchResultsController: nil)
-    
+    let client = APIClient()
+    var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
         setupCollectionView()
-        //navigationController?.navigationBar.addSubview(searchController.searchBar)
-        let client = APIClient()
+        
         client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=Batman&page=2", completion: { movies in
-            
+            DispatchQueue.main.async {
+                self.store.movies.append(contentsOf: movies)
+                self.collectionView.reloadData()
+            }
         })
+        
+        print(self.store.movies)
         collectionView.dataSource = self
         collectionView.delegate = self
-        print(self.store.movies)
-        //collectionView.h
-       // setupNavigationController(navController: self.navigationController!)
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
         collectionView.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         view.addSubview(collectionView)
+        setupNavigationController(navController: self.navigationController!)
+        print(self.store.movies)
         collectionView.reloadData()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .plain, target: self, action: #selector(searchButtonPressed))
     }
     
     override func viewWillLayoutSubviews() {
@@ -44,15 +44,7 @@ class TeamViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 }
 
-extension TeamViewController {
-    
-    func searchButtonPressed() {
-        print("search button pressed")
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
+extension MovieViewController {
     
     func setupCollectionView() {
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -65,17 +57,9 @@ extension TeamViewController {
         layout.itemSize = CGSize(width: 50, height: 150)
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
     }
-    
-    // MARK: - Setup navbar UI
 }
 
-extension TeamViewController {
-    
-    // MARK: - CollectionViewController method implementations
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height/3.2)
-    }
+extension MovieViewController {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.store.movies.count
@@ -84,12 +68,15 @@ extension TeamViewController {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.reuseIdentifier, for: indexPath) as! MovieCell
         cell.configureCell(movie:self.store.movies[indexPath.row])
-        //cell.teamMemberBioText.isHidden = true
         return cell
     }
 }
 
-extension TeamViewController {
+extension MovieViewController {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height/3.5)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top:0, left: 0, bottom: 60, right: 0)
@@ -99,7 +86,9 @@ extension TeamViewController {
         return 20
     }
     
-    // MARK: - Popvoer view implmented
+}
+
+extension MovieViewController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let memberData = self.store.movies[indexPath.row]
@@ -108,7 +97,6 @@ extension TeamViewController {
             self.detailPop.showPopView(viewController: self)
             self.detailPop.popView.isHidden = false
             let zoomOutTranform: CGAffineTransform = CGAffineTransform(scaleX: 10, y: 10)
-            // self.detailPop.popView.bioTextView.text = memberData.bio
         })
         self.detailPop.popView.doneButton.addTarget(self, action: #selector(hidePop), for: .touchUpInside)
     }
@@ -122,6 +110,5 @@ extension TeamViewController {
         detailPop.popView.isHidden = true
         view.sendSubview(toBack: detailPop)
     }
-    
 }
 
