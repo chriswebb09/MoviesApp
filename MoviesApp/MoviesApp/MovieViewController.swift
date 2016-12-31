@@ -9,7 +9,9 @@
 import UIKit
 
 class MovieViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     private let reuseIdentifier = "MovieCell"
+    
     let store = DataStore.sharedInstance
     let detailPop = DetailPopover()
     let client = APIClient()
@@ -19,14 +21,12 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         edgesForExtendedLayout = []
         setupCollectionView()
-        
         client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=Batman&page=2", completion: { movies in
             DispatchQueue.main.async {
                 self.store.movies.append(contentsOf: movies)
                 self.collectionView.reloadData()
             }
         })
-        
         print(self.store.movies)
         collectionView.dataSource = self
         collectionView.delegate = self
