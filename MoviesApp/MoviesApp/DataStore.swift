@@ -11,4 +11,6 @@ import UIKit
 class DataStore {
     static let sharedInstance = DataStore()
     var movies = [Movie]()
+    var searchTerm: String = ""
+    
 }

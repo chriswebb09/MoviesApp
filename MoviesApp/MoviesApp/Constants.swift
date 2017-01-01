@@ -25,5 +25,17 @@ struct Constants {
     struct Color {
         static let buttonColorBlue = UIColor(red:0.41, green:0.72, blue:0.90, alpha:1.0)
     }
+    
+    static let signupFieldFont = UIFont(name: "HelveticaNeue-Thin" , size: 16)
+    static let borderWidth:CGFloat = 1
+    static let searchFieldButtonRadius: CGFloat = 2
+    static let signupFieldColor = UIColor.lightGray.cgColor
+    static let mainOffset:CGFloat = 30
+    static let centerYOffset:CGFloat = 0.1
+    static let buttonColor = UIColor(red:0.10, green:0.71, blue:1.00, alpha:1.0)
+    static let friendsHeaderLabelHeight:CGFloat = 0.85
+    static let friendsHeaderLabelTopOffset:CGFloat = 0.2
+    static let buttonHeight = CGFloat(0.07)
 }
+
 

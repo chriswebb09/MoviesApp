@@ -31,8 +31,9 @@ class MoviesAppTests: XCTestCase {
         let exampleMovie = Movie(title: "ExampleMovie", year: "1990", director: "Example Director", cast: ["Example Castmember"], genre: ["Example Fiction"], imdbID: "exampleImdbID", posterURL: "http://example.con")
         store.movies = [exampleMovie]
         XCTAssertEqual(store.movies.count, 1, "There should be one movie in DataStore movies array")
-        
     }
+    
+    
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

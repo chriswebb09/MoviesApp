@@ -60,9 +60,7 @@ extension APIClient {
                     self.movies.append(movie)
                 }
                 completion(self.movies)
-                self.store.movies = self.movies
             }
         })
-        
     }
 }

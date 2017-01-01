@@ -69,6 +69,29 @@ extension MovieViewController {
         navController.navigationBar.topItem?.title = "Movies"
         navController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName:UIFont(name: "HelveticaNeue-Thin", size: 20)]
         navController.navigationBar.barTintColor = UIColor.black
+        navController.navigationBar.tintColor = UIColor.white
+    }
+}
+
+class TextFieldExtension: UITextField {
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width + 10, height: bounds.height)
+    }
+    
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.origin.x + 10, y: bounds.origin.y, width: bounds.width, height: bounds.height)
+    }
+    
+    func returnTextField(placeholder:String) -> TextFieldExtension {
+        let returnTextField = TextFieldExtension()
+        returnTextField.placeholder = placeholder
+        returnTextField.font = Constants.signupFieldFont
+        returnTextField.layer.borderColor = Constants.signupFieldColor
+        returnTextField.layer.borderWidth = Constants.borderWidth
+        returnTextField.layer.cornerRadius = 3
+        returnTextField.keyboardType = .default
+        return returnTextField
     }
 }
 

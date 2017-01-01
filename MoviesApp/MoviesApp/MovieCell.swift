@@ -33,7 +33,6 @@ class MovieCell: UICollectionViewCell {
         var teamMemberTitleLabel = UILabel()
         teamMemberTitleLabel.sizeToFit()
         teamMemberTitleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
-        //teamMemberTitleLabel.backgroundColor = UIColor.clear
         return teamMemberTitleLabel
     }()
     
@@ -50,7 +49,7 @@ class MovieCell: UICollectionViewCell {
 }
 
 extension MovieCell {
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         isUserInteractionEnabled = true
@@ -70,7 +69,7 @@ extension MovieCell {
 }
 
 extension MovieCell {
-
+    
     func configureCell(movie: Movie) {
         layoutSubviews()
         setupConstraints()
@@ -90,7 +89,7 @@ extension MovieCell {
     func setupConstraints() {
         contentView.addSubview(movieTitleLabel)
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.45).isActive = true
+        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.48).isActive = true
         movieTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: contentView.bounds.width * 0.21).isActive = true
         movieTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: contentView.bounds.height * -0.12).isActive = true
         

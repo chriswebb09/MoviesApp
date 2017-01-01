@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A713B7CD1E198103006ADE00 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A713B7CC1E198103006ADE00 /* SearchView.swift */; };
+		A713B7CF1E19810E006ADE00 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A713B7CE1E19810E006ADE00 /* SearchViewController.swift */; };
 		A76C08C61E1699920033F2B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C08C51E1699920033F2B6 /* AppDelegate.swift */; };
 		A76C08CD1E1699920033F2B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A76C08CC1E1699920033F2B6 /* Assets.xcassets */; };
 		A76C08D01E1699920033F2B6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A76C08CE1E1699920033F2B6 /* LaunchScreen.storyboard */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A713B7CC1E198103006ADE00 /* SearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		A713B7CE1E19810E006ADE00 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A76C08C21E1699920033F2B6 /* MoviesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A76C08C51E1699920033F2B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A76C08CC1E1699920033F2B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 				A76C08F71E1699C30033F2B6 /* Helpers.swift */,
 				A76C08F91E1699D40033F2B6 /* DataStore.swift */,
 				A79981811E1801B600B4D7EB /* MovieViewController.swift */,
+				A713B7CC1E198103006ADE00 /* SearchView.swift */,
+				A713B7CE1E19810E006ADE00 /* SearchViewController.swift */,
 				A76C08FD1E1699F70033F2B6 /* Movie.swift */,
 				A76C09011E169A0C0033F2B6 /* Constants.swift */,
 				A76C09031E169A1F0033F2B6 /* DetailView.swift */,
@@ -289,9 +295,11 @@
 				A76C08FA1E1699D40033F2B6 /* DataStore.swift in Sources */,
 				A76C08C61E1699920033F2B6 /* AppDelegate.swift in Sources */,
 				A76C09061E169A290033F2B6 /* DetailPopover.swift in Sources */,
+				A713B7CD1E198103006ADE00 /* SearchView.swift in Sources */,
 				A76C08F81E1699C30033F2B6 /* Helpers.swift in Sources */,
 				A79981821E1801B600B4D7EB /* MovieViewController.swift in Sources */,
 				A76C09041E169A1F0033F2B6 /* DetailView.swift in Sources */,
+				A713B7CF1E19810E006ADE00 /* SearchViewController.swift in Sources */,
 				A76C08F61E1699B50033F2B6 /* MovieCell.swift in Sources */,
 				A76C08FE1E1699F70033F2B6 /* Movie.swift in Sources */,
 				A76C09021E169A0C0033F2B6 /* Constants.swift in Sources */,
