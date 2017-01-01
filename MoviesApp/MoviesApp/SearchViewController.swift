@@ -41,7 +41,6 @@ final class SearchViewController: UIViewController {
         } else {
             DispatchQueue.main.asyncAfter(deadline: when) {
                 self.loadingView.hideActivityIndicator(viewController: self)
-                
             }
             return
         }

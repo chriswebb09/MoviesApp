@@ -96,7 +96,9 @@ extension MovieViewController {
 extension MovieViewController {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         let memberData = self.store.movies[indexPath.row]
+        
         detailPop.popView.configureView(movie: memberData)
         UIView.animate(withDuration: 0.15, animations: {
             self.detailPop.showPopView(viewController: self)
