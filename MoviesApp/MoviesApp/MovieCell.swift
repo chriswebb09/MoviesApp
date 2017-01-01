@@ -89,7 +89,7 @@ extension MovieCell {
     func setupConstraints() {
         contentView.addSubview(movieTitleLabel)
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.48).isActive = true
+        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.56).isActive = true
         movieTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: contentView.bounds.width * 0.21).isActive = true
         movieTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: contentView.bounds.height * -0.12).isActive = true
         

@@ -28,6 +28,9 @@ class DetailView: UIView {
     
     var teamMemberNameLabel: UILabel = {
         var teamMemberNameLabel = UILabel()
+        teamMemberNameLabel.textAlignment = .center
+        teamMemberNameLabel.lineBreakMode = .byWordWrapping
+        teamMemberNameLabel.numberOfLines = 0
         teamMemberNameLabel.sizeToFit()
         teamMemberNameLabel.font = Constants.Font.bolderFontLarge
         return teamMemberNameLabel
@@ -81,10 +84,11 @@ extension DetailView {
     // MARK: - Configure View
     
     func configureView(movie: Movie) {
-        teamMemberNameLabel.text = "\(movie.title)"
-        bioTextView.text = movie.director
+        
         client.downloadImage(url: URL(string:movie.posterURL)!, handler: { image in
             DispatchQueue.main.async {
+                self.teamMemberNameLabel.text = "\(movie.title)"
+                self.bioTextView.text = movie.director
                 self.posterImage.image = image
             }
         })
@@ -100,13 +104,14 @@ extension DetailView {
         addSubview(teamMemberNameLabel)
         teamMemberNameLabel.translatesAutoresizingMaskIntoConstraints = false
         teamMemberNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        teamMemberNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true 
         teamMemberNameLabel.topAnchor.constraint(equalTo: topAnchor, constant:20).isActive = true
         
         addSubview(posterImage)
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         posterImage.topAnchor.constraint(equalTo: teamMemberNameLabel.bottomAnchor, constant: 50).isActive = true
-        posterImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4).isActive = true
+        posterImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35).isActive = true
         posterImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.26).isActive = true
         
         addSubview(teamMemberTitleLabel)

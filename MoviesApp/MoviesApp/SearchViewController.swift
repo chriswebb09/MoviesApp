@@ -15,6 +15,7 @@ final class SearchViewController: UIViewController {
     
     let searchView = SearchView()
     let store = DataStore.sharedInstance
+    let loadingView = LoadingView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +26,24 @@ final class SearchViewController: UIViewController {
     }
     
     func searchForMovies() {
-        store.searchTerm = ""
-        var search = searchView.searchField.text?.components(separatedBy: " ")
-        self.store.searchTerm = (search?.remove(at: 0))!
-        search?.forEach { term in
-            self.store.searchTerm = "\(self.store.searchTerm)+\(term)"
+        let when = DispatchTime.now() + 2
+        
+        loadingView.showActivityIndicator(viewController: self)
+        if self.searchView.searchField.text!.characters.count > 0 {
+            store.searchTerm = ""
+            var search = searchView.searchField.text?.components(separatedBy: " ")
+            self.store.searchTerm = (search?.remove(at: 0))!
+            search?.forEach { term in
+                self.store.searchTerm = "\(self.store.searchTerm)+\(term)"
+            }
+            loadingView.hideActivityIndicator(viewController: self)
+            navigationController?.pushViewController(MovieViewController(), animated: false)
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.loadingView.hideActivityIndicator(viewController: self)
+                
+            }
+            return
         }
-        navigationController?.pushViewController(MovieViewController(), animated: false)
     }
 }

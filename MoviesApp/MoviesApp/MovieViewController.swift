@@ -11,7 +11,7 @@ import UIKit
 class MovieViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private let reuseIdentifier = "MovieCell"
-    
+    var loadingView = LoadingView()
     let store = DataStore.sharedInstance
     let detailPop = DetailPopover()
     let client = APIClient()
@@ -22,11 +22,13 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
         edgesForExtendedLayout = []
         setupCollectionView()
         client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=2", completion: { movies in
+            self.loadingView.showActivityIndicator(viewController: self)
             if self.store.movies.count > 0 {
                 self.store.movies.removeAll()
             }
+            self.store.movies.append(contentsOf: movies)
             DispatchQueue.main.async {
-                self.store.movies.append(contentsOf: movies)
+                self.loadingView.hideActivityIndicator(viewController: self)
                 self.collectionView.reloadData()
             }
         })
@@ -99,7 +101,8 @@ extension MovieViewController {
         UIView.animate(withDuration: 0.15, animations: {
             self.detailPop.showPopView(viewController: self)
             self.detailPop.popView.isHidden = false
-            // let zoomOutTranform: CGAffineTransform = CGAffineTransform(scaleX: 10, y: 10)
+            let zoomOutTranform: CGAffineTransform = CGAffineTransform(scaleX: 1, y: 1)
+            self.detailPop.popView.transform = zoomOutTranform
         })
         self.detailPop.popView.doneButton.addTarget(self, action: #selector(hidePop), for: .touchUpInside)
     }
