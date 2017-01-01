@@ -23,9 +23,10 @@ final class SearchViewController: UIViewController {
     }
     
     func searchForMovies() {
-        let when = DispatchTime.now() + 2
         
+        let when = DispatchTime.now() + 2
         loadingView.showActivityIndicator(viewController: self)
+        
         if self.searchView.searchField.text!.characters.count > 0 {
             store.searchTerm = ""
             var search = searchView.searchField.text?.components(separatedBy: " ")
