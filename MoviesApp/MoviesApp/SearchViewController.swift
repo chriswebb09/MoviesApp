@@ -33,6 +33,4 @@ final class SearchViewController: UIViewController {
         }
         navigationController?.pushViewController(MovieViewController(), animated: false)
     }
-    
-    
 }
