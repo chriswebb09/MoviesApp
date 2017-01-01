@@ -26,7 +26,7 @@ extension DetailPopover {
     public override func showPopView(viewController: UIViewController) {
         super.showPopView(viewController: viewController)
         
-        popView.frame = CGRect(x:UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * -0.5, width:UIScreen.main.bounds.width * 0.93, height:UIScreen.main.bounds.height * 0.78)
+        popView.frame = CGRect(x:UIScreen.main.bounds.width * 0.5, y: UIScreen.main.bounds.height * -0.5, width:UIScreen.main.bounds.width * 0.93, height:UIScreen.main.bounds.height * 0.7)
         popView.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.height / 2.5)
         popView.clipsToBounds = true
         

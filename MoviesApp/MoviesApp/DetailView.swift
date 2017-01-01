@@ -104,7 +104,7 @@ extension DetailView {
         addSubview(teamMemberNameLabel)
         teamMemberNameLabel.translatesAutoresizingMaskIntoConstraints = false
         teamMemberNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        teamMemberNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true 
+        teamMemberNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true
         teamMemberNameLabel.topAnchor.constraint(equalTo: topAnchor, constant:20).isActive = true
         
         addSubview(posterImage)

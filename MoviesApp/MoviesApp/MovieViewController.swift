@@ -21,6 +21,25 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         edgesForExtendedLayout = []
         setupCollectionView()
+        loadMovieData()
+        print(self.store.movies)
+        addDelegatesToView()
+        collectionView.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+        view.addSubview(collectionView)
+        setupNavigationController(navController: self.navigationController!)
+        print(self.store.movies)
+        //collectionView.reloadData()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+}
+
+extension MovieViewController {
+    
+    func loadMovieData() {
         client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=2", completion: { movies in
             self.loadingView.showActivityIndicator(viewController: self)
             if self.store.movies.count > 0 {
@@ -32,25 +51,14 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
                 self.collectionView.reloadData()
             }
         })
-        print(self.store.movies)
+    }
+    
+    
+    func addDelegatesToView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
-        collectionView.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-        view.addSubview(collectionView)
-        setupNavigationController(navController: self.navigationController!)
-        print(self.store.movies)
-        collectionView.reloadData()
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        collectionView.collectionViewLayout.invalidateLayout()
-    }
-}
-
-extension MovieViewController {
-    
     func setupCollectionView() {
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .vertical
