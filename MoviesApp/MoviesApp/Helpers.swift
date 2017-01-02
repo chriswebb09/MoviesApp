@@ -9,6 +9,7 @@
 import UIKit
 
 class BasePopoverAlert: UIView {
+    
     public let containerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.black
@@ -93,5 +94,5 @@ class TextFieldExtension: UITextField {
         returnTextField.keyboardType = .default
         return returnTextField
     }
-}
 
+}

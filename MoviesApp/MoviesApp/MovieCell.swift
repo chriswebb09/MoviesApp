@@ -65,7 +65,6 @@ extension MovieCell {
         self.layer.masksToBounds = false;
         self.layer.shadowPath = UIBezierPath(roundedRect:self.bounds, cornerRadius:self.contentView.layer.cornerRadius).cgPath
     }
-    
 }
 
 extension MovieCell {
@@ -89,7 +88,7 @@ extension MovieCell {
     func setupConstraints() {
         contentView.addSubview(movieTitleLabel)
         movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.56).isActive = true
+        movieTitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.48).isActive = true
         movieTitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: contentView.bounds.width * 0.21).isActive = true
         movieTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: contentView.bounds.height * -0.12).isActive = true
         
@@ -97,13 +96,13 @@ extension MovieCell {
         posterView.translatesAutoresizingMaskIntoConstraints = false
         posterView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: contentView.bounds.height * 0.1).isActive = true
         posterView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        posterView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.34).isActive = true
-        posterView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7).isActive = true
+        posterView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.386).isActive = true
+        posterView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8).isActive = true
         
         contentView.addSubview(movieYearLabel)
         movieYearLabel.translatesAutoresizingMaskIntoConstraints = false
         movieYearLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: contentView.bounds.width * 0.2).isActive = true
-        movieYearLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: contentView.bounds.height * 0.12).isActive = true
+        movieYearLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.height * -0.08).isActive = true
         
         contentView.addSubview(movieCastLabel)
         movieCastLabel.translatesAutoresizingMaskIntoConstraints = false

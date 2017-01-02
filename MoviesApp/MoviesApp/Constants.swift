@@ -16,6 +16,7 @@ struct Constants {
         static let fontMedium = UIFont(name: "HelveticaNeue-Light", size: 16)
         static let fontLarge = UIFont(name: "HelveticaNeue-Thin", size: 22)
         static let thinFontLarge = UIFont(name: "HelveticaNeue-Thin", size: 18)
+        static let thinFontMedium = UIFont(name: "HelveticaNeue-Thin", size: 16)
         static let bolderFontSmall = UIFont(name: "HelveticaNeue", size: 12)
         static let bolderFontMedium = UIFont(name: "HelveticaNeue", size: 16)
         static let bolderFontLarge = UIFont(name: "HelveticaNeue", size: 22)

@@ -10,12 +10,13 @@ import UIKit
 
 final class SearchViewController: UIViewController {
     
-    let searchView = SearchView()
-    let store = DataStore.sharedInstance
-    let loadingView = LoadingView()
+    private let searchView = SearchView()
+    fileprivate let store = DataStore.sharedInstance
+    private let loadingView = LoadingView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         view.addSubview(searchView)
         searchView.layoutSubviews()
         view.backgroundColor = UIColor.white

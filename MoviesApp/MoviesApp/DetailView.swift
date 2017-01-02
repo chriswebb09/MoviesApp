@@ -13,11 +13,11 @@ struct DatailViewModel {
     var nameLabel: String
 }
 
-class DetailView: UIView {
+final class DetailView: UIView {
     
     // MARK - Setup UI Elements
     
-    var client = APIClient()
+    fileprivate var client = APIClient()
     
     var posterImage: UIImageView = {
         var posterImage = UIImageView()
@@ -26,31 +26,32 @@ class DetailView: UIView {
         return posterImage
     }()
     
-    var teamMemberNameLabel: UILabel = {
-        var teamMemberNameLabel = UILabel()
-        teamMemberNameLabel.textAlignment = .center
-        teamMemberNameLabel.lineBreakMode = .byWordWrapping
-        teamMemberNameLabel.numberOfLines = 0
-        teamMemberNameLabel.sizeToFit()
-        teamMemberNameLabel.font = Constants.Font.bolderFontLarge
-        return teamMemberNameLabel
+    var movieTitleLabel: UILabel = {
+        var movieTitleLabel = UILabel()
+        movieTitleLabel.textAlignment = .center
+        movieTitleLabel.lineBreakMode = .byWordWrapping
+        movieTitleLabel.numberOfLines = 0
+        movieTitleLabel.sizeToFit()
+        movieTitleLabel.font = Constants.Font.bolderFontLarge
+        return movieTitleLabel
     }()
     
-    var teamMemberTitleLabel: UILabel = {
-        var teamMemberTitleLabel = UILabel()
-        teamMemberTitleLabel.sizeToFit()
-        teamMemberTitleLabel.textAlignment = .center
-        teamMemberTitleLabel.font = Constants.Font.thinFontLarge
-        return teamMemberTitleLabel
+    var movieYearLabel: UILabel = {
+        var movieYearLabel = UILabel()
+        movieYearLabel.sizeToFit()
+        movieYearLabel.textAlignment = .center
+        movieYearLabel.font = Constants.Font.thinFontLarge
+        return movieYearLabel
     }()
     
-    var bioTextView: UITextView = {
-        var teamMemberBioText = UITextView()
-        teamMemberBioText.sizeToFit()
-        teamMemberBioText.font = Constants.Font.fontSmall
-        teamMemberBioText.textAlignment = .center
-        teamMemberBioText.isScrollEnabled = true
-        return teamMemberBioText
+    var plotTextView: UITextView = {
+        var plotTextView = UITextView()
+        plotTextView.sizeToFit()
+        plotTextView.font = Constants.Font.thinFontMedium
+        plotTextView.textAlignment = .justified
+        plotTextView.isEditable = false
+        plotTextView.isScrollEnabled = true
+        return plotTextView
     }()
     
     let doneButton: UIButton = {
@@ -84,46 +85,49 @@ extension DetailView {
     // MARK: - Configure View
     
     func configureView(movie: Movie) {
-        
-        client.downloadImage(url: URL(string:movie.posterURL)!, handler: { image in
-            DispatchQueue.main.async {
-                self.teamMemberNameLabel.text = "\(movie.title)"
-                self.bioTextView.text = movie.director
-                self.posterImage.image = image
-            }
-        })
-        posterImage.layer.cornerRadius = posterImage.frame.height / 4
         layoutSubviews()
         setupConstraints()
-        teamMemberTitleLabel.text = "\(movie.director)"
+        client.downloadImage(url: URL(string:movie.posterURL)!, handler: { image in
+            DispatchQueue.main.async {
+                self.layoutIfNeeded()
+                self.movieTitleLabel.text = "\(movie.title)"
+                self.movieYearLabel.text = "\(movie.year)"
+                self.plotTextView.text = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+                self.posterImage.image = image
+                self.posterImage.layer.cornerRadius = self.posterImage.frame.height / 4
+            }
+        })
+        
     }
     
     // MARK: - Configure constraints
     
-    func setupConstraints() {
-        addSubview(teamMemberNameLabel)
-        teamMemberNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        teamMemberNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        teamMemberNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true
-        teamMemberNameLabel.topAnchor.constraint(equalTo: topAnchor, constant:20).isActive = true
+    fileprivate func setupConstraints() {
+        addSubview(movieTitleLabel)
+        movieTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        movieTitleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        movieTitleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true
+        movieTitleLabel.topAnchor.constraint(equalTo: topAnchor, constant: UIScreen.main.bounds.height * 0.028).isActive = true
+        
+        
+        addSubview(movieYearLabel)
+        movieYearLabel.translatesAutoresizingMaskIntoConstraints = false
+        movieYearLabel.centerXAnchor.constraint(equalTo: movieTitleLabel.centerXAnchor).isActive = true
+        movieYearLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: UIScreen.main.bounds.height * 0.02).isActive = true
         
         addSubview(posterImage)
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        posterImage.topAnchor.constraint(equalTo: teamMemberNameLabel.bottomAnchor, constant: 50).isActive = true
-        posterImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35).isActive = true
-        posterImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.26).isActive = true
+        posterImage.topAnchor.constraint(equalTo: movieYearLabel.bottomAnchor, constant: UIScreen.main.bounds.height * 0.028).isActive = true
+        posterImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4).isActive = true
+        posterImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3).isActive = true
         
-        addSubview(teamMemberTitleLabel)
-        teamMemberTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        teamMemberTitleLabel.centerXAnchor.constraint(equalTo: posterImage.centerXAnchor).isActive = true
-        teamMemberTitleLabel.topAnchor.constraint(equalTo: topAnchor, constant:50).isActive = true
-        
-        addSubview(bioTextView)
-        bioTextView.translatesAutoresizingMaskIntoConstraints = false
-        bioTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        bioTextView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.38).isActive = true
-        bioTextView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.89).isActive = true
+        addSubview(plotTextView)
+        plotTextView.translatesAutoresizingMaskIntoConstraints = false
+        plotTextView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: UIScreen.main.bounds.height * 0.02).isActive = true
+        plotTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        plotTextView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.32).isActive = true
+        plotTextView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.94).isActive = true
         
         addSubview(doneButton)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +135,5 @@ extension DetailView {
         doneButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         doneButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.14).isActive = true
         doneButton.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        bioTextView.bottomAnchor.constraint(equalTo: doneButton.topAnchor).isActive = true
     }
 }

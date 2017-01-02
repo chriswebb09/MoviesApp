@@ -9,9 +9,9 @@
 import UIKit
 typealias JSONData = [String : Any]
 
-class APIClient {
-    let store = DataStore.sharedInstance
-    var queue = OperationQueue()
+final class APIClient {
+    fileprivate let store = DataStore.sharedInstance
+    fileprivate var queue = OperationQueue()
     static let sharedInstance = APIClient()
     var movies = [Movie]()
     let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -19,7 +19,7 @@ class APIClient {
 
 extension APIClient {
     
-    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+   fileprivate func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         let urlRequest = URLRequest(url:url)
         session.dataTask(with: urlRequest, completionHandler: { data, response, error in
             completion(data, response, error)
@@ -43,7 +43,7 @@ extension APIClient {
 
 extension APIClient {
     
-    func sendAPICall(fromUrlString:String, completion: @escaping ([Movie]) -> Void) {
+    public func sendAPICall(fromUrlString:String, completion: @escaping ([Movie]) -> Void) {
         let url = URL(string: fromUrlString)!
         getDataFromUrl(url: url, completion: { data, response, error in
             guard let data = data else { return }
@@ -53,10 +53,11 @@ extension APIClient {
                 let searchData = dataResponse as! [[String:String]]
                 searchData.forEach { finalData in
                     guard let title = finalData["Title"] else { return }
+                    guard let year = finalData["Year"] else { return }
                     guard let imdbID = finalData["imdbID"] else { return }
                     guard let genre = finalData["Type"] else { return }
                     guard let posterURL = finalData["Poster"] else { return }
-                    let movie = Movie(title: title, year: "None", director: "None", cast: ["NONE"], genre: [genre], imdbID: imdbID, posterURL: posterURL)
+                    let movie = Movie(title: title, year: year, director: "None", cast: ["NONE"], genre: [genre], imdbID: imdbID, posterURL: posterURL)
                     self.movies.append(movie)
                 }
                 completion(self.movies)

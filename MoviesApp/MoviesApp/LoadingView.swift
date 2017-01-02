@@ -15,7 +15,7 @@ class LoadingView: UIView {
         return activityIndicator
     }()
     
-    let containerView: UIView = {
+    private let containerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = UIColor.clear
         return containerView
@@ -49,7 +49,7 @@ class LoadingView: UIView {
         activityIndicator.startAnimating()
     }
     
-    func hideActivityIndicator(viewController:UIViewController){
+    public func hideActivityIndicator(viewController:UIViewController){
         viewController.view.sendSubview(toBack: containerView)
         loadingView.isHidden = true
         activityIndicator.stopAnimating()

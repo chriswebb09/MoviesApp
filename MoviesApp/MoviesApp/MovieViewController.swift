@@ -11,8 +11,9 @@ import UIKit
 class MovieViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     private let reuseIdentifier = "MovieCell"
+    fileprivate let store = DataStore.sharedInstance
     var loadingView = LoadingView()
-    let store = DataStore.sharedInstance
+    
     let detailPop = DetailPopover()
     let client = APIClient()
     var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
