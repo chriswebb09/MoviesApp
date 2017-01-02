@@ -10,8 +10,9 @@ import UIKit
 
 final class SearchView: UIView {
     
+    // =============================
     // MARK: - UI Elements
-    // =========================================================================
+    // =============================
     
     let headerLabel: UILabel = {
         let friendsHeaderLabel = UILabel()
@@ -48,8 +49,9 @@ final class SearchView: UIView {
 
 extension SearchView {
     
+    // =============================
     // MARK: - Initialization
-    // =========================================================================
+    // =============================
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -57,8 +59,9 @@ extension SearchView {
         setupConstraints()
     }
     
+    // =============================
     // MARK: - Configure
-    // =========================================================================
+    // =============================
     
     private func configureView(view:UIView) {
         addSubview(view)
