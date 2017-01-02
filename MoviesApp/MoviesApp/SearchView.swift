@@ -13,7 +13,7 @@ final class SearchView: UIView {
     // MARK: - UI Elements
     // =========================================================================
     
-    let friendsHeaderLabel: UILabel = {
+    let headerLabel: UILabel = {
         let friendsHeaderLabel = UILabel()
         friendsHeaderLabel.textColor = UIColor.black
         friendsHeaderLabel.text = "Search For Movies"
@@ -63,14 +63,14 @@ extension SearchView {
     private func configureView(view:UIView) {
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalTo:widthAnchor, multiplier: Constants.friendsHeaderLabelHeight).isActive = true
+        view.widthAnchor.constraint(equalTo:widthAnchor, multiplier: Constants.headerLabelHeight).isActive = true
         view.heightAnchor.constraint(equalTo:heightAnchor, multiplier: Constants.buttonHeight).isActive = true
         view.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
     
     private func setupConstraints() {
-        configureView(view: friendsHeaderLabel)
-        friendsHeaderLabel.topAnchor.constraint(equalTo: topAnchor, constant: bounds.height * Constants.friendsHeaderLabelTopOffset).isActive = true
+        configureView(view: headerLabel)
+        headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: bounds.height * Constants.headerLabelTopOffset).isActive = true
         configureView(view: searchField)
         searchField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.mainOffset).isActive = true
         searchField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -bounds.height * Constants.centerYOffset).isActive = true

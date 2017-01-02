@@ -34,8 +34,8 @@ struct Constants {
     static let mainOffset:CGFloat = 30
     static let centerYOffset:CGFloat = 0.1
     static let buttonColor = UIColor(red:0.10, green:0.71, blue:1.00, alpha:1.0)
-    static let friendsHeaderLabelHeight:CGFloat = 0.85
-    static let friendsHeaderLabelTopOffset:CGFloat = 0.2
+    static let headerLabelHeight:CGFloat = 0.85
+    static let headerLabelTopOffset:CGFloat = 0.2
     static let buttonHeight = CGFloat(0.07)
 }
 
