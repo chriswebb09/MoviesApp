@@ -16,9 +16,14 @@ final class APIClient {
     var movies = [Movie]()
     var pageNumber = 1
     let session = URLSession(configuration: URLSessionConfiguration.default)
+    
+    deinit {
+        print("API client deallocated")
+    }
 }
 
 extension APIClient {
+    
     
     fileprivate func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         let urlRequest = URLRequest(url:url)
@@ -30,14 +35,15 @@ extension APIClient {
     
     func downloadImage(url: URL, handler: @escaping (UIImage) -> Void) {
         print("Download Started")
-        getDataFromUrl(url: url) { data, response, error in
-            let op1 = BlockOperation {
+        getDataFromUrl(url: url) { [unowned self] data, response, error in
+            var op1 = BlockOperation {
                 guard let data = data, error == nil else { return }
                 OperationQueue.main.addOperation {
                     handler(UIImage(data: data)!)
                 }
             }
-            op1.completionBlock = {
+            op1.completionBlock = { [unowned op1] in
+                op1.completionBlock = nil
                 print("Op1 finished")
             }
             self.queue.addOperation(op1)

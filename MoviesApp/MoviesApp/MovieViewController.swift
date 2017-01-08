@@ -35,12 +35,14 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewWillLayoutSubviews()
         collectionView.collectionViewLayout.invalidateLayout()
     }
+    
+   
 }
 
 extension MovieViewController {
     
     func loadMovieData() {
-        client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { movies in
+        client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { [unowned self] movies in
             self.loadingView.showActivityIndicator(viewController: self)
             
             if self.store.movies.count > 0 {
@@ -144,13 +146,13 @@ extension MovieViewController {
                 pageNumber += 1
                 print(pageNumber)
                 
-                client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { [unowned self] movies in
+                client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { [weak self] movies in
                     
-                    self.loadingView.showActivityIndicator(viewController: self)
-                    self.store.movies.append(contentsOf: movies.0)
-                    DispatchQueue.main.async { [unowned self] in
-                        self.loadingView.hideActivityIndicator(viewController: self)
-                        self.collectionView.reloadData()
+                    self?.loadingView.showActivityIndicator(viewController: self!)
+                    self?.store.movies.append(contentsOf: movies.0)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.loadingView.hideActivityIndicator(viewController: self!)
+                        self?.collectionView.reloadData()
                     }
                 }
             }
