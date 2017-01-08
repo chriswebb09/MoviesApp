@@ -45,7 +45,7 @@ extension MovieViewController {
             }
             self.store.movies.append(contentsOf: movies.0)
             self.store.numberOfResults = movies.1
-            DispatchQueue.main.async { [unowned self] in 
+            DispatchQueue.main.async { [unowned self] in
                 self.loadingView.hideActivityIndicator(viewController: self)
                 self.collectionView.reloadData()
             }
@@ -133,17 +133,11 @@ extension MovieViewController {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == self.store.movies.count - 1 {
             if self.store.movies.count < self.store.numberOfResults {
-                print("YUP")
-                print(store.numberOfResults)
                 pageNumber += 1
                 print(pageNumber)
                 client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { [unowned self] movies in
                     self.loadingView.showActivityIndicator(viewController: self)
-//                    if self.store.movies.count > 0 {
-//                        self.store.movies.removeAll()
-//                    }
                     self.store.movies.append(contentsOf: movies.0)
-                   // self.store.numberOfResults = movies.1
                     DispatchQueue.main.async { [unowned self] in
                         self.loadingView.hideActivityIndicator(viewController: self)
                         self.collectionView.reloadData()
