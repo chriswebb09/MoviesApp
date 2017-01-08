@@ -19,42 +19,46 @@ final class DetailView: UIView {
     
     fileprivate var client = APIClient()
     
-    var posterImage: UIImageView = {
+    deinit {
+        print("detailview deallocated")
+    }
+    
+    lazy var posterImage: UIImageView = {
         var posterImage = UIImageView()
         posterImage.layer.borderWidth = 2
         posterImage.clipsToBounds = true
         return posterImage
     }()
     
-    var movieTitleLabel: UILabel = {
+    lazy var movieTitleLabel: UILabel = {
         var movieTitleLabel = UILabel()
         movieTitleLabel.textAlignment = .center
         movieTitleLabel.lineBreakMode = .byWordWrapping
         movieTitleLabel.numberOfLines = 0
         movieTitleLabel.sizeToFit()
-        movieTitleLabel.font = Constants.Font.bolderFontLarge
+        movieTitleLabel.font = Constants.Font.bolderFontMediumLarge
         return movieTitleLabel
     }()
     
-    var movieYearLabel: UILabel = {
+    lazy var movieYearLabel: UILabel = {
         var movieYearLabel = UILabel()
         movieYearLabel.sizeToFit()
         movieYearLabel.textAlignment = .center
-        movieYearLabel.font = Constants.Font.thinFontLarge
+        movieYearLabel.font = Constants.Font.thinFontMedium
         return movieYearLabel
     }()
     
-    var plotTextView: UITextView = {
+    lazy var plotTextView: UITextView = {
         var plotTextView = UITextView()
         plotTextView.sizeToFit()
-        plotTextView.font = Constants.Font.thinFontMedium
+        plotTextView.font = Constants.Font.thinFontSmall
         plotTextView.textAlignment = .justified
         plotTextView.isEditable = false
         plotTextView.isScrollEnabled = true
         return plotTextView
     }()
     
-    let doneButton: UIButton = {
+    lazy var doneButton: UIButton = {
         var button = ButtonType.system(title: "Done", color: UIColor.white)
         var uiButton = button.newButton
         uiButton.layer.cornerRadius = 0
@@ -87,8 +91,8 @@ extension DetailView {
     func configureView(movie: Movie) {
         layoutSubviews()
         setupConstraints()
-        client.downloadImage(url: URL(string:movie.posterURL)!, handler: { image in
-            DispatchQueue.main.async {
+        client.downloadImage(url: URL(string:movie.posterURL)!, handler: { [unowned self] image in
+            DispatchQueue.main.async { [unowned self] in
                 self.layoutIfNeeded()
                 self.movieTitleLabel.text = "\(movie.title)"
                 self.movieYearLabel.text = "\(movie.year)"
@@ -118,15 +122,15 @@ extension DetailView {
         addSubview(posterImage)
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         posterImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        posterImage.topAnchor.constraint(equalTo: movieYearLabel.bottomAnchor, constant: UIScreen.main.bounds.height * 0.028).isActive = true
+        posterImage.topAnchor.constraint(equalTo: movieYearLabel.bottomAnchor, constant: UIScreen.main.bounds.height * 0.025).isActive = true
         posterImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4).isActive = true
-        posterImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3).isActive = true
+        posterImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.28).isActive = true
         
         addSubview(plotTextView)
         plotTextView.translatesAutoresizingMaskIntoConstraints = false
-        plotTextView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: UIScreen.main.bounds.height * 0.02).isActive = true
+        plotTextView.topAnchor.constraint(equalTo: posterImage.bottomAnchor, constant: UIScreen.main.bounds.height * 0.01).isActive = true
         plotTextView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        plotTextView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.32).isActive = true
+        plotTextView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.33).isActive = true
         plotTextView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.94).isActive = true
         
         addSubview(doneButton)

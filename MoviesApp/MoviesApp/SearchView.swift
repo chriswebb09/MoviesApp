@@ -14,11 +14,15 @@ final class SearchView: UIView {
     // MARK: - UI Elements
     // =============================
     
+    deinit {
+        print("deallocating search view")
+    }
+    
     let headerLabel: UILabel = {
         let friendsHeaderLabel = UILabel()
         friendsHeaderLabel.textColor = UIColor.black
         friendsHeaderLabel.text = "Search For Movies"
-        friendsHeaderLabel.font = Constants.Font.fontLarge
+        friendsHeaderLabel.font = Constants.Font.bolderFontLarge
         friendsHeaderLabel.textAlignment = .center
         friendsHeaderLabel.layer.masksToBounds = true
         return friendsHeaderLabel
@@ -66,7 +70,7 @@ extension SearchView {
     private func configureView(view:UIView) {
         addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalTo:widthAnchor, multiplier: Constants.headerLabelHeight).isActive = true
+        view.widthAnchor.constraint(equalTo:widthAnchor, multiplier: Constants.searchFieldWidth).isActive = true
         view.heightAnchor.constraint(equalTo:heightAnchor, multiplier: Constants.buttonHeight).isActive = true
         view.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     }
@@ -74,11 +78,16 @@ extension SearchView {
     private func setupConstraints() {
         configureView(view: headerLabel)
         headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: bounds.height * Constants.headerLabelTopOffset).isActive = true
+        
         configureView(view: searchField)
-        searchField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.mainOffset).isActive = true
-        searchField.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -bounds.height * Constants.centerYOffset).isActive = true
-        configureView(view: searchButton)
-        searchButton.centerYAnchor.constraint(equalTo: centerYAnchor, constant: bounds.height * Constants.centerYOffset).isActive = true
+        searchField.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: bounds.height * 0.16).isActive = true
+        
+        addSubview(searchButton)
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.widthAnchor.constraint(equalTo:widthAnchor, multiplier: 0.4).isActive = true
+        searchButton.heightAnchor.constraint(equalTo:heightAnchor, multiplier: Constants.buttonHeight).isActive = true
+        searchButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        searchButton.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: bounds.height * 0.12).isActive = true
     }
 }
 

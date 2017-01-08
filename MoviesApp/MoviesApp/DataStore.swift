@@ -12,5 +12,6 @@ class DataStore {
     static let sharedInstance = DataStore()
     var movies = [Movie]()
     var searchTerm: String = ""
-    
+    var movieURL: String = "http://www.omdbapi.com/?i=tt1403981&plot=short&r=json"
+    var numberOfResults = 0 
 }

@@ -14,13 +14,15 @@ final class APIClient {
     fileprivate var queue = OperationQueue()
     static let sharedInstance = APIClient()
     var movies = [Movie]()
+    var pageNumber = 1
     let session = URLSession(configuration: URLSessionConfiguration.default)
 }
 
 extension APIClient {
     
-   fileprivate func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+    fileprivate func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
         let urlRequest = URLRequest(url:url)
+        print(url)
         session.dataTask(with: urlRequest, completionHandler: { data, response, error in
             completion(data, response, error)
         }).resume()
@@ -29,10 +31,12 @@ extension APIClient {
     func downloadImage(url: URL, handler: @escaping (UIImage) -> Void) {
         print("Download Started")
         getDataFromUrl(url: url) { data, response, error in
-            let op1 = BlockOperation(block: {
+            let op1 = BlockOperation {
                 guard let data = data, error == nil else { return }
-                OperationQueue.main.addOperation({ handler(UIImage(data: data)!) })
-            })
+                OperationQueue.main.addOperation {
+                    handler(UIImage(data: data)!)
+                }
+            }
             op1.completionBlock = {
                 print("Op1 finished")
             }
@@ -43,25 +47,46 @@ extension APIClient {
 
 extension APIClient {
     
-    public func sendAPICall(fromUrlString:String, completion: @escaping ([Movie]) -> Void) {
+    public func sendAPICall(fromUrlString:String, completion: @escaping ([Movie], Int) -> Void) {
         let url = URL(string: fromUrlString)!
-        getDataFromUrl(url: url, completion: { data, response, error in
-            guard let data = data else { return }
+        getDataFromUrl(url: url) { [weak self] data, response, error in
+            guard let data = data else {
+                return
+            }
             do {
                 let result = try? JSONSerialization.jsonObject(with: data, options:[]) as! [String:AnyObject]
+                //  print(result?["totalResults"])
                 let dataResponse = result?["Search"] as AnyObject
+                
                 let searchData = dataResponse as! [[String:String]]
-                searchData.forEach { finalData in
-                    guard let title = finalData["Title"] else { return }
-                    guard let year = finalData["Year"] else { return }
-                    guard let imdbID = finalData["imdbID"] else { return }
-                    guard let genre = finalData["Type"] else { return }
-                    guard let posterURL = finalData["Poster"] else { return }
-                    let movie = Movie(title: title, year: year, director: "None", cast: ["NONE"], genre: [genre], imdbID: imdbID, posterURL: posterURL)
-                    self.movies.append(movie)
+                searchData.forEach { [weak self] finalData in
+                    if finalData["Type"] == "movie" {
+                        guard let title = finalData["Title"] else { return }
+                        guard let year = finalData["Year"] else { return }
+                        guard let imdbID = finalData["imdbID"] else { return }
+                        guard let genre = finalData["Type"] else { return }
+                        print(genre)
+                        guard let posterURL = finalData["Poster"] else { return }
+                        let movie = Movie(title: title, year: year, director: "None", cast: ["NONE"], genre: [genre], imdbID: imdbID, posterURL: posterURL)
+                        print(movie.imdbID)
+                        self?.movies.append(movie)
+                    }
+                    
                 }
-                completion(self.movies)
+                let resultsNumber = result?["totalResults"]! as! String
+                if let movie = self?.movies {
+                    completion(movie, Int(resultsNumber)!)
+                }
+                
             }
-        })
+        }
+    }
+}
+
+
+extension APIClient {
+    func getMovieDetails(fromID:String, completion: @escaping (Movie) -> Void) {
+        // "http://www.omdbapi.com/?i=\(fromID)&plot=short&r=json"
+        // http://www.omdbapi.com/?i=tt1403981&plot=short&r=json
     }
 }

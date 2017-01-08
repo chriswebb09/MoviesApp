@@ -13,14 +13,18 @@ class MovieCell: UICollectionViewCell {
     
     static let reuseIdentifier = "Cell"
     
-    var posterView: UIImageView = {
+    deinit {
+        print("deallocating moviecell")
+    }
+    
+    lazy var posterView: UIImageView = {
         var posterView = UIImageView()
         posterView.layer.borderWidth = 2
         posterView.clipsToBounds = true
         return posterView
     }()
     
-    var movieTitleLabel: UILabel = {
+    lazy var movieTitleLabel: UILabel = {
         var movieTitleLabel = UILabel()
         movieTitleLabel.font = UIFont(name: "HelveticaNeue", size: 18)
         movieTitleLabel.textAlignment = .center
@@ -29,14 +33,14 @@ class MovieCell: UICollectionViewCell {
         return movieTitleLabel
     }()
     
-    var movieYearLabel: UILabel = {
+    lazy var movieYearLabel: UILabel = {
         var teamMemberTitleLabel = UILabel()
         teamMemberTitleLabel.sizeToFit()
         teamMemberTitleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 16)
         return teamMemberTitleLabel
     }()
     
-    var movieCastLabel: UITextView = {
+    lazy var movieCastLabel: UITextView = {
         var teamMemberBioText = UITextView()
         teamMemberBioText.sizeToFit()
         teamMemberBioText.font = UIFont(name: "HelveticaNeue-Light", size: 11)
@@ -72,17 +76,17 @@ extension MovieCell {
     func configureCell(movie: Movie) {
         layoutSubviews()
         setupConstraints()
-        self.layoutIfNeeded()
+        layoutIfNeeded()
         movieCastLabel.isHidden = true
         posterView.layer.cornerRadius =  posterView.frame.height / 2.0
-        client.downloadImage(url: URL(string:movie.posterURL)!, handler: { image in
-            DispatchQueue.main.async {
+        client.downloadImage(url: URL(string:movie.posterURL)!) { [unowned self] image in
+            DispatchQueue.main.async { 
                 self.posterView.image = image
                 self.movieYearLabel.text = movie.year
                 self.movieTitleLabel.text = "\(movie.title)"
                 self.movieCastLabel.text = movie.director
             }
-        })
+        }
     }
     
     func setupConstraints() {

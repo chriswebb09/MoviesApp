@@ -24,21 +24,20 @@ final class SearchViewController: UIViewController {
     }
     
     func searchForMovies() {
-        
-        let when = DispatchTime.now() + 2
+        let when = DispatchTime.now() + 0.5
         loadingView.showActivityIndicator(viewController: self)
-        
         if self.searchView.searchField.text!.characters.count > 0 {
             store.searchTerm = ""
             var search = searchView.searchField.text?.components(separatedBy: " ")
             self.store.searchTerm = (search?.remove(at: 0))!
-            search?.forEach { term in
+            search?.forEach { [unowned self] term in
                 self.store.searchTerm = "\(self.store.searchTerm)+\(term)"
             }
             loadingView.hideActivityIndicator(viewController: self)
+            searchView.searchField.text = ""
             navigationController?.pushViewController(MovieViewController(), animated: false)
         } else {
-            DispatchQueue.main.asyncAfter(deadline: when) {
+            DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in 
                 self.loadingView.hideActivityIndicator(viewController: self)
             }
             return

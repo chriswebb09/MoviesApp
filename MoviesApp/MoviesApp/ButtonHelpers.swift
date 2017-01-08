@@ -40,6 +40,7 @@ enum ButtonType {
     }
     
     var newButton: UIButton {
+        
         switch self {
         case let .login(title):
             return setupLoginButton(with: title)
