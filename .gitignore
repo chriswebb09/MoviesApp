@@ -45,7 +45,7 @@ playground.xcworkspace
 #
 
 /Pods
-Pods/*
+MoviesApp/Pods/*
 
 # Carthage
 #
@@ -61,7 +61,7 @@ Carthage/Build
 # For more information about the recommended setup visit:
 # https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-.DS_Store 
+*.DS_Store 
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
