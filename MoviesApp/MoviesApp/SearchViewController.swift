@@ -37,7 +37,7 @@ final class SearchViewController: UIViewController {
             searchView.searchField.text = ""
             navigationController?.pushViewController(MovieViewController(), animated: false)
         } else {
-            DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in 
+            DispatchQueue.main.asyncAfter(deadline: when) { [unowned self] in
                 self.loadingView.hideActivityIndicator(viewController: self)
             }
             return
