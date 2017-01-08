@@ -19,6 +19,7 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
     var collectionView : UICollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         edgesForExtendedLayout = []
         setupCollectionView()
@@ -27,6 +28,7 @@ class MovieViewController: UIViewController, UICollectionViewDelegate, UICollect
         collectionView.backgroundColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         view.addSubview(collectionView)
         setupNavigationController(navController: self.navigationController!)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -40,9 +42,11 @@ extension MovieViewController {
     func loadMovieData() {
         client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { movies in
             self.loadingView.showActivityIndicator(viewController: self)
+            
             if self.store.movies.count > 0 {
                 self.store.movies.removeAll()
             }
+            
             self.store.movies.append(contentsOf: movies.0)
             self.store.numberOfResults = movies.1
             DispatchQueue.main.async { [unowned self] in
@@ -52,17 +56,19 @@ extension MovieViewController {
         }
     }
     
-    
     func addDelegatesToView() {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MovieCell.self, forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
     }
+    
     func setupCollectionView() {
+        
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .vertical
             flowLayout.minimumLineSpacing = 0
         }
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionView.collectionViewLayout.invalidateLayout()
         layout.sectionInset = UIEdgeInsets(top:0, left: 0, bottom: 60, right: 0)
@@ -109,6 +115,7 @@ extension MovieViewController {
         let memberData = self.store.movies[indexPath.row]
         detailPop.popView.configureView(movie: memberData)
         UIView.animate(withDuration: 0.15) { [unowned self] in
+            
             self.detailPop.showPopView(viewController: self)
             self.detailPop.popView.isHidden = false
             let zoomOutTranform: CGAffineTransform = CGAffineTransform(scaleX: 1, y: 1)
@@ -130,12 +137,15 @@ extension MovieViewController {
 
 
 extension MovieViewController {
+    
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if indexPath.row == self.store.movies.count - 1 {
             if self.store.movies.count < self.store.numberOfResults {
                 pageNumber += 1
                 print(pageNumber)
+                
                 client.sendAPICall(fromUrlString:"http://www.omdbapi.com/?s=\(store.searchTerm)&page=\(pageNumber)") { [unowned self] movies in
+                    
                     self.loadingView.showActivityIndicator(viewController: self)
                     self.store.movies.append(contentsOf: movies.0)
                     DispatchQueue.main.async { [unowned self] in
